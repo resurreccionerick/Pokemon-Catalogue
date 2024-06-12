@@ -1,4 +1,4 @@
-package com.example.pokemon_mvvm_roomdb
+package com.example.pokemon_mvvm_roomdb.UI.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.pokemon_mvvm_roomdb.R
 import com.example.pokemon_mvvm_roomdb.UI.adapter.PokemonListAdapter
 import com.example.pokemon_mvvm_roomdb.data.viewmodel.PokemonViewModel
 import com.example.pokemon_mvvm_roomdb.databinding.FragmentListBinding

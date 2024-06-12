@@ -20,7 +20,7 @@ class PokemonRepository(private val api: ApiService) {
         }
     }
 
-    suspend fun fetchPokemon(id: Int): PokemonDetails? {
+    suspend fun fetchPokemon(id: String): PokemonDetails? {
         return withContext(Dispatchers.IO) {
             try {
                 api.getPokemon(id)

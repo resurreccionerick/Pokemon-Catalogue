@@ -8,7 +8,8 @@ data class PokemonDetails(
     val abilities: List<Ability>,
     val types: List<Type>,
     val moves: List<Move>,
-    val sprites: Sprites
+    val sprites: Sprites,
+    val stats: List<Stat>,
 )
 
 data class Ability(
@@ -37,20 +38,15 @@ data class MoveInfo(
 
 data class Sprites(
     val front_default: String,
-    val back_default: String // Added back sprite as an example
+    val back_default: String
 )
-//    val name: String,
-//    val weight: Int,
-//    val height: Int,
-//    val types: List<TypeItem>,
-//    val sprites: Sprite
-//)
-//
-//data class TypeItem(val type: Type)
-//
-//data class Type(val name: String, val url: String)
-//
-//data class Sprite(
-//    @SerializedName("front_default")
-//    val frontDefault: String
-//)
+
+data class Stat(
+    val base_stat: Int,
+    val effort: Int,
+    val stat: StatInfo
+)
+
+data class StatInfo(
+    val name: String
+)

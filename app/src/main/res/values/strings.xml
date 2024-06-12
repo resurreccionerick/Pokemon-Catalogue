@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pokemon-mvvm-roomdb</string>
+    <string name="app_name">Pokemon Catalogue</string>
     <string name="home">Home</string>
     <string name="pokedex">Pokedex</string>
     <!-- TODO: Remove or change this placeholder text -->

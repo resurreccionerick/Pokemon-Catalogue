@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.pokemon_mvvm_roomdb.PokemonListFragment"
+        android:name="com.example.pokemon_mvvm_roomdb.UI.fragments.PokemonListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/pokedexFragment"
-        android:name="com.example.pokemon_mvvm_roomdb.PokedexFragment"
+        android:name="com.example.pokemon_mvvm_roomdb.UI.fragments.PokedexFragment"
         android:label="fragment_pokedex"
         tools:layout="@layout/fragment_pokedex" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/pokemonDetailsFragment"
-        android:name="com.example.pokemon_mvvm_roomdb.PokemonDetailsFragment"
+        android:name="com.example.pokemon_mvvm_roomdb.UI.fragments.PokemonDetailsFragment"
         android:label="fragment_pokemon_details"
         tools:layout="@layout/fragment_pokemon_details" >
         <action

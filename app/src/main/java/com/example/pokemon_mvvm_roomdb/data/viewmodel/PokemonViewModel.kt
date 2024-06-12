@@ -21,14 +21,14 @@ class PokemonViewModel() : ViewModel() {
 
     fun fetchPokemonList() {
         viewModelScope.launch {
-            val response = repository.fetchPokemonList()
+            val response = repository.fetchPokemonList()!!
             _pokemonList.postValue(response)
         }
     }
 
-    fun fetchPokemon(id: Int) {
+    fun fetchPokemon(id: String) {
         viewModelScope.launch {
-            val response = repository.fetchPokemon(id)
+            val response = repository.fetchPokemon(id)!!
             _pokemon.postValue(response)
         }
     }

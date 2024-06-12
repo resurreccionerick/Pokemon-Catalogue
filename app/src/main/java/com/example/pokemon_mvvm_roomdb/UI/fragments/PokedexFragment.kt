@@ -1,10 +1,11 @@
-package com.example.pokemon_mvvm_roomdb
+package com.example.pokemon_mvvm_roomdb.UI.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.pokemon_mvvm_roomdb.R
 
 class PokedexFragment : Fragment() {
 
