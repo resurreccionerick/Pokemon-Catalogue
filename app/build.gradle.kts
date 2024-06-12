@@ -62,18 +62,17 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-//    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
-//    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-
+    //lifecycle
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
-
-
-    // Glide for image loading
+    //glide
     implementation("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+//    //for animation
+//    implementation("com.github.gayanvoice:android-animations-kotlin:1.0.1")
 }
