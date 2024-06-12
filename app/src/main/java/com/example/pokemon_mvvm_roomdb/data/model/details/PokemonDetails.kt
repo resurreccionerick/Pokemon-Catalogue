@@ -1,7 +1,5 @@
 package com.example.pokemon.model.details
 
-import com.google.gson.annotations.SerializedName
-
 data class PokemonDetails(
     val id: Int,
     val name: String,
