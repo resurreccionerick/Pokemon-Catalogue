@@ -1,5 +1,6 @@
 package com.example.pokemon_mvvm_roomdb.UI.fragments
 
+import PokemonListAdapter
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +12,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemon_mvvm_roomdb.R
-import com.example.pokemon_mvvm_roomdb.UI.adapter.PokemonListAdapter
 import com.example.pokemon_mvvm_roomdb.data.viewmodel.PokemonViewModel
 import com.example.pokemon_mvvm_roomdb.databinding.FragmentListBinding
 
@@ -39,7 +39,7 @@ class PokemonListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Fetch the list of Pokémon
-        viewModel.fetchPokemonList()
+        viewModel.fetchPokemonListWithSprites()
 
         // Observe changes in the list of Pokémon
         observeLiveData()
@@ -47,18 +47,12 @@ class PokemonListFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel.pokemonList.observe(viewLifecycleOwner, Observer { pokemonList ->
+        viewModel.pokemonListSprite.observe(viewLifecycleOwner, Observer { pokemonList ->
             binding.rvList.apply {
-                layoutManager = GridLayoutManager(
-                    activity,
-                    1, GridLayoutManager.VERTICAL,
-                    false
-                )
-
+                layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
                 adapter = pokemonListAdapter
             }
-            pokemonListAdapter.setData(pokemonList.results)
-
+            pokemonListAdapter.setData(pokemonList)
         })
     }
 

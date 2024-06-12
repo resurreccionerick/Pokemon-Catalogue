@@ -13,18 +13,11 @@ import kotlinx.coroutines.launch
 class PokemonViewModel() : ViewModel() {
     private val repository = PokemonRepository(RetrofitInstance.api)
 
-    private val _pokemonList = MutableLiveData<PokemonList>()
     private val _pokemon = MutableLiveData<PokemonDetails>()
+    private val _pokemonListSprite = MutableLiveData<List<PokemonDetails>>()
 
-    val pokemonList: LiveData<PokemonList> get() = _pokemonList
+    val pokemonListSprite: LiveData<List<PokemonDetails>> get() = _pokemonListSprite
     val pokemon: LiveData<PokemonDetails> get() = _pokemon
-
-    fun fetchPokemonList() {
-        viewModelScope.launch {
-            val response = repository.fetchPokemonList()!!
-            _pokemonList.postValue(response)
-        }
-    }
 
     fun fetchPokemon(id: String) {
         viewModelScope.launch {
@@ -32,4 +25,12 @@ class PokemonViewModel() : ViewModel() {
             _pokemon.postValue(response)
         }
     }
+
+    fun fetchPokemonListWithSprites() {
+        viewModelScope.launch {
+            val pokemonList = repository.fetchPokemonListWithSprites()
+            _pokemonListSprite.postValue(pokemonList)
+        }
+    }
+
 }

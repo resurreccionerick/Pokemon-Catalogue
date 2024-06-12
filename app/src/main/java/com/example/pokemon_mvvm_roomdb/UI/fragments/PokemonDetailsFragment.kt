@@ -100,7 +100,7 @@ class PokemonDetailsFragment : Fragment() {
         })
     }
 
-    private fun getTypeBackgroundColor(typeName: String?): Int {
+     private fun getTypeBackgroundColor(typeName: String?): Int {
         return when (typeName?.toLowerCase()) {
             "normal" -> Color.LTGRAY
             "fire" -> Color.RED
