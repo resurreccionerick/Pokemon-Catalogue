@@ -21,6 +21,7 @@ class PokemonListFragment : Fragment() {
     private lateinit var viewModel: PokemonViewModel
     private lateinit var pokemonListAdapter: PokemonListAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this)[PokemonViewModel::class.java]
@@ -36,6 +37,7 @@ class PokemonListFragment : Fragment() {
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +56,6 @@ class PokemonListFragment : Fragment() {
             pokemonListAdapter.setData(pokemonList)
         })
     }
-
 
 
     private fun onPokemonClicked() {

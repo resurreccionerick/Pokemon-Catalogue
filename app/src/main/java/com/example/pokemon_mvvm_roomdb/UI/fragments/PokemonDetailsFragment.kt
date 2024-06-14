@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
@@ -33,6 +34,7 @@ class PokemonDetailsFragment : Fragment() {
     private lateinit var binding: FragmentPokemonDetailsBinding
     private lateinit var viewModel: PokemonViewModel
     private lateinit var sharedPreferences: SharedPreferences
+   // private val pokemonViewModel: PokemonViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +69,17 @@ class PokemonDetailsFragment : Fragment() {
     }
 
     private fun onClickListeners() {
+        binding.btnAddToFavorites.setOnClickListener {
+            viewModel.pokemon.value?.let { pokemonDetails ->
+                viewModel.insertPokemon(pokemonDetails)
+                Toast.makeText(
+                    requireContext(),
+                    "${pokemonDetails.name} added to favorites!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
         binding.btnBack.btnBack.setOnClickListener {
             val navController = findNavController(
                 requireActivity(),

@@ -2,15 +2,8 @@ package com.example.pokemon.model.details
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 
 @Entity(tableName = "pokemonInformation")
-@TypeConverter(
-    AbilityListConverter::class,
-    MoveListConverter::class,
-    StatListConverter::class,
-    TypeListConverter::class
-)
 data class PokemonDetails(
     @PrimaryKey()
     val id: Int,

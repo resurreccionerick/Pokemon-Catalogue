@@ -1,12 +1,16 @@
 package com.example.pokemon_mvvm_roomdb.data.viewmodel
 
 import android.util.Log
+import com.example.pagkain_mvvm.database.PokemonDAO
 import com.example.pokemon.model.details.PokemonDetails
 import com.example.pokemon.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class PokemonRepository(private val api: ApiService) {
+class PokemonRepository(
+    private val api: ApiService,
+    private val pokemonDetailsDao: PokemonDAO
+) {
 
     suspend fun fetchPokemon(id: String): PokemonDetails? {
         return withContext(Dispatchers.IO) {
@@ -18,6 +22,7 @@ class PokemonRepository(private val api: ApiService) {
             }
         }
     }
+
     suspend fun fetchPokemonListWithSprites(): List<PokemonDetails> {
         return withContext(Dispatchers.IO) {
             try {
@@ -42,6 +47,19 @@ class PokemonRepository(private val api: ApiService) {
         }
     }
 
+    suspend fun insertPokemon(pokemon: PokemonDetails) {
+        pokemonDetailsDao.upsertPokemon(pokemon)
+    }
 
+    companion object {
+        private var INSTANCE: PokemonRepository? = null
 
+        fun getInstance(apiService: ApiService, pokemonDetailsDao: PokemonDAO): PokemonRepository {
+            return INSTANCE ?: synchronized(this) {
+                val instance = PokemonRepository(apiService, pokemonDetailsDao)
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
 }
