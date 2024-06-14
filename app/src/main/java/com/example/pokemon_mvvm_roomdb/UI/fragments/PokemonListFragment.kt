@@ -25,6 +25,9 @@ class PokemonListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this)[PokemonViewModel::class.java]
         pokemonListAdapter = PokemonListAdapter()
+
+        // Fetch the list of Pokémon
+        viewModel.fetchPokemonListWithSprites()
     }
 
     override fun onCreateView(
@@ -38,23 +41,20 @@ class PokemonListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Fetch the list of Pokémon
-        viewModel.fetchPokemonListWithSprites()
-
         // Observe changes in the list of Pokémon
         observeLiveData()
         onPokemonClicked()
     }
 
     private fun observeLiveData() {
+        binding.rvList.layoutManager = GridLayoutManager(activity, 2)
+        binding.rvList.adapter = pokemonListAdapter
+
         viewModel.pokemonListSprite.observe(viewLifecycleOwner, Observer { pokemonList ->
-            binding.rvList.apply {
-                layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
-                adapter = pokemonListAdapter
-            }
             pokemonListAdapter.setData(pokemonList)
         })
     }
+
 
 
     private fun onPokemonClicked() {

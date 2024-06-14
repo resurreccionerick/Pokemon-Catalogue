@@ -41,7 +41,7 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
             GradientDrawable.Orientation.LEFT_RIGHT,
             intArrayOf(startColor, endColor)
         )
-        holder.binding.llListBg.background = gradientDrawable
+        holder.binding.tvPokemonName.background = gradientDrawable
 
         Glide.with(holder.itemView.context)
             .load(item.sprites.front_default)

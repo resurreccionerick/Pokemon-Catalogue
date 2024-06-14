@@ -2,7 +2,6 @@ package com.example.pokemon_mvvm_roomdb.data.viewmodel
 
 import android.util.Log
 import com.example.pokemon.model.details.PokemonDetails
-import com.example.pokemon.model.list.PokemonList
 import com.example.pokemon.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

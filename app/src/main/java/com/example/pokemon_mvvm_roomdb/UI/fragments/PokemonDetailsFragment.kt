@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.pokemon.model.details.Ability
 import com.example.pokemon.model.details.Move
@@ -61,8 +62,18 @@ class PokemonDetailsFragment : Fragment() {
 
         // Observe changes in the list of Pokémon
         observeLiveData()
+        onClickListeners();
 
+    }
 
+    private fun onClickListeners() {
+        binding.btnBack.btnBack.setOnClickListener {
+            val navController = findNavController(
+                requireActivity(),
+                com.example.pokemon_mvvm_roomdb.R.id.navFragmentController
+            )
+            navController.navigate(com.example.pokemon_mvvm_roomdb.R.id.action_pokemonDetailsFragment_to_listFragment)
+        }
     }
 
 
@@ -100,7 +111,7 @@ class PokemonDetailsFragment : Fragment() {
         })
     }
 
-     private fun getTypeBackgroundColor(typeName: String?): Int {
+    private fun getTypeBackgroundColor(typeName: String?): Int {
         return when (typeName?.toLowerCase()) {
             "normal" -> Color.LTGRAY
             "fire" -> Color.RED
