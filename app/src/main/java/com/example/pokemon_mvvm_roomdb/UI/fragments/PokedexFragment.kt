@@ -1,6 +1,7 @@
 package com.example.pokemon_mvvm_roomdb.UI.fragments
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
@@ -17,6 +19,7 @@ import com.example.pokemon_mvvm_roomdb.R
 import com.example.pokemon_mvvm_roomdb.UI.adapter.PokemonFavAdapter
 import com.example.pokemon_mvvm_roomdb.data.viewmodel.PokemonViewModel
 import com.example.pokemon_mvvm_roomdb.databinding.FragmentPokedexBinding
+import com.google.android.material.snackbar.Snackbar
 
 class PokedexFragment : Fragment() {
 
@@ -85,6 +88,27 @@ class PokedexFragment : Fragment() {
             val sharedPreferences =
                 requireContext().getSharedPreferences("pokemon_pref", Context.MODE_PRIVATE)
             sharedPreferences.edit().putString("pokemon_id", pokemon.name).apply()
+        }
+
+        pokemonFavAdapter.onDeleteItemClick = { pokemon ->
+            AlertDialog.Builder(requireContext())
+                .setTitle("Delete Favorite")
+                .setMessage("Are you sure you want to delete this favorite?")
+                .setPositiveButton("Delete") { dialogInterface: DialogInterface, _: Int ->
+                    viewModel.deletePokemon(pokemon)
+                    Snackbar.make(requireView(), "Favorite deleted", Snackbar.LENGTH_LONG)
+                        .setAction(
+                            "Undo"
+                        ) {
+                            viewModel.insertPokemon(pokemon)
+                            pokemonFavAdapter.notifyItemInserted(pokemon.id)
+                        }.show()
+                    dialogInterface.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                }
+                .show()
         }
     }
 

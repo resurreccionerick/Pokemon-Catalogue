@@ -15,6 +15,7 @@ data class PokemonDetails(
     val moves: List<Move>,
     val sprites: Sprites,
     val stats: List<Stat>,
+    var isFavorite: Boolean
 )
 
 data class Ability(

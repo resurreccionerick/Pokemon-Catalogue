@@ -10,6 +10,7 @@ import com.example.pokemon.model.details.PokemonDetails
 
 @Dao
 interface PokemonDAO {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertPokemon(meal: PokemonDetails)
 

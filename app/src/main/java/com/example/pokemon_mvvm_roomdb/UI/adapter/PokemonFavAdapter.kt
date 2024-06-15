@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pokemon.model.details.PokemonDetails
+import com.example.pokemon_mvvm_roomdb.R
 import com.example.pokemon_mvvm_roomdb.databinding.PokemonItemBinding
 
 class PokemonFavAdapter : RecyclerView.Adapter<PokemonFavAdapter.FavoritesViewHolder>() {
 
     lateinit var onItemClick: ((PokemonDetails) -> Unit)
+    lateinit var onDeleteItemClick: ((PokemonDetails) -> Unit)
 
     private var pokemonList = ArrayList<PokemonDetails>()
 
@@ -47,6 +49,12 @@ class PokemonFavAdapter : RecyclerView.Adapter<PokemonFavAdapter.FavoritesViewHo
         holder.itemView.setOnClickListener {
             onItemClick.invoke(item)
         }
+
+        holder.itemView.setOnLongClickListener {
+            onDeleteItemClick.invoke(item)
+            true
+        }
+
     }
 
     private fun getTypeGradientColors(typeName: String?): Pair<Int, Int> {
@@ -80,6 +88,11 @@ class PokemonFavAdapter : RecyclerView.Adapter<PokemonFavAdapter.FavoritesViewHo
         this.pokemonList = list
         notifyDataSetChanged()
         Log.d("Meal search  ", list.toString())
+    }
+
+    fun removeItem(position: Int) {
+        pokemonList.removeAt(position)
+        notifyItemRemoved(position)
     }
 
 }

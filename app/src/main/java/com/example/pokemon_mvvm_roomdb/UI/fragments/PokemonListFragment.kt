@@ -3,6 +3,7 @@ package com.example.pokemon_mvvm_roomdb.UI.fragments
 import PokemonListAdapter
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,13 +47,15 @@ class PokemonListFragment : Fragment() {
         // Observe changes in the list of Pokémon
         observeLiveData()
         onPokemonClicked()
+
     }
 
     private fun observeLiveData() {
-        binding.rvList.layoutManager = GridLayoutManager(activity, 2)
+        binding.rvList.layoutManager = GridLayoutManager(activity, 1)
         binding.rvList.adapter = pokemonListAdapter
 
         viewModel.pokemonListSprite.observe(viewLifecycleOwner, Observer { pokemonList ->
+            Log.d("ERICK BOOL LIST", pokemonList.toString())
             pokemonListAdapter.setData(pokemonList)
         })
     }

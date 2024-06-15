@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.pokemon.model.details.PokemonDetails
 
-@Database(entities = [PokemonDetails::class], version = 1, exportSchema = false)
+@Database(entities = [PokemonDetails::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PokemonDatabase : RoomDatabase() {
 
@@ -23,7 +23,7 @@ abstract class PokemonDatabase : RoomDatabase() {
                     context.applicationContext,
                     PokemonDatabase::class.java,
                     "pokemon_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

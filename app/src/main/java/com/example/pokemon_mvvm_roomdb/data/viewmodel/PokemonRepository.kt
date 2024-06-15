@@ -51,6 +51,12 @@ class PokemonRepository(
         pokemonDetailsDao.upsertPokemon(pokemon)
     }
 
+    suspend fun deletePokemon(pokemon: PokemonDetails) {
+        pokemonDetailsDao.delete(pokemon)
+    }
+
+
+
     companion object {
         private var INSTANCE: PokemonRepository? = null
 

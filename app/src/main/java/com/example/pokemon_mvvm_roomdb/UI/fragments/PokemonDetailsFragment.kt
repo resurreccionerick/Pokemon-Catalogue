@@ -16,7 +16,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
@@ -76,6 +75,8 @@ class PokemonDetailsFragment : Fragment() {
                     "${pokemonDetails.name} added to favorites!",
                     Toast.LENGTH_SHORT
                 ).show()
+
+
             }
         }
 
@@ -90,6 +91,8 @@ class PokemonDetailsFragment : Fragment() {
 
 
     private fun observeLiveData() {
+
+
         viewModel.pokemon.observe(viewLifecycleOwner, Observer { pokemonDetails ->
             pokemonDetails?.let {
                 // Bind data to TextViews
@@ -119,6 +122,13 @@ class PokemonDetailsFragment : Fragment() {
 
                 //Bind Stats
                 bindStats(pokemonDetails.stats)
+
+                Log.d("ERICK BOOL", pokemonDetails.isFavorite.toString())
+                if (pokemonDetails.isFavorite) {
+                    binding.btnAddToFavorites.text = "Remove from favorite"
+                } else {
+                    binding.btnAddToFavorites.text = "Add from favorite"
+                }
             }
         })
     }

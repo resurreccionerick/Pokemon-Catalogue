@@ -1,6 +1,7 @@
 package com.example.pokemon_mvvm_roomdb.data.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,9 +46,14 @@ class PokemonViewModel(application: Application) : AndroidViewModel(application)
 
     fun insertPokemon(pokemon: PokemonDetails) {
         viewModelScope.launch {
-            repository.insertPokemon(pokemon)
+            val pokemonWithFavoriteStatus = pokemon.copy(isFavorite = true)
+            repository.insertPokemon(pokemonWithFavoriteStatus)
         }
     }
 
-
+    fun deletePokemon(pokemon: PokemonDetails) {
+        viewModelScope.launch {
+            repository.deletePokemon(pokemon)
+        }
+    }
 }

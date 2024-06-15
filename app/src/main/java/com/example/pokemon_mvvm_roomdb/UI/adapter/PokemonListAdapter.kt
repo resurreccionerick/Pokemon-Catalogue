@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pokemon.model.details.PokemonDetails
+import com.example.pokemon_mvvm_roomdb.R
 import com.example.pokemon_mvvm_roomdb.databinding.PokemonItemBinding
 
 class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHolder>() {
@@ -55,6 +56,8 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
         holder.itemView.setOnClickListener {
             onItemClick.invoke(item)
         }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -76,7 +79,10 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
             "bug" -> Pair(Color.rgb(34, 139, 34), Color.GREEN) // Forest Green to Green
             "rock" -> Pair(Color.GRAY, Color.DKGRAY)
             "ghost" -> Pair(Color.rgb(128, 128, 128), Color.DKGRAY) // Gray to Dark Gray
-            "dragon" -> Pair(Color.rgb(75, 0, 130), Color.rgb(138, 43, 226)) // Indigo to Blue Violet
+            "dragon" -> Pair(
+                Color.rgb(75, 0, 130),
+                Color.rgb(138, 43, 226)
+            ) // Indigo to Blue Violet
             "dark" -> Pair(Color.rgb(25, 25, 112), Color.BLACK) // Midnight Blue to Black
             "steel" -> Pair(Color.rgb(169, 169, 169), Color.LTGRAY) // Dark Gray to Light Gray
             "fairy" -> Pair(Color.rgb(255, 192, 203), Color.MAGENTA) // Pink to Magenta
