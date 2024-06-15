@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_pokedexFragment_self"
             app:destination="@id/pokedexFragment" />
+        <action
+            android:id="@+id/action_pokedexFragment_to_pokemonDetailsFragment"
+            app:destination="@id/pokemonDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/pokemonDetailsFragment"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_pokemonDetailsFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_pokemonDetailsFragment_to_pokedexFragment"
+            app:destination="@id/pokedexFragment" />
     </fragment>
 
 

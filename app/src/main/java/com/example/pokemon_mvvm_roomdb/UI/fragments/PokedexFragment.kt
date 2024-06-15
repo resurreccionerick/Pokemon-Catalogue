@@ -1,5 +1,7 @@
 package com.example.pokemon_mvvm_roomdb.UI.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemon.model.details.PokemonDetails
 import com.example.pokemon_mvvm_roomdb.R
@@ -34,7 +37,6 @@ class PokedexFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPokedexBinding.inflate(layoutInflater)
-
         return (binding.root)
     }
 
@@ -43,9 +45,12 @@ class PokedexFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeLiveData()
-        //pokemonClicked()
+        pokemonClicked()
         prepareRecyclerView()
+
+        binding.customToolbar.toolbarTitle.text = "Favorites"
     }
+
 
     private fun observeLiveData() {
         viewModel.favPokemon.observe(viewLifecycleOwner, Observer { meals ->
@@ -64,10 +69,23 @@ class PokedexFragment : Fragment() {
         })
     }
 
+
     private fun prepareRecyclerView() {
         binding.rvFav.apply {
             layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.VERTICAL, false)
             adapter = pokemonFavAdapter
         }
     }
+
+    private fun pokemonClicked() {
+        pokemonFavAdapter.onItemClick = { pokemon ->
+            val navController = findNavController(requireActivity(), R.id.navFragmentController)
+            navController.navigate(R.id.action_pokedexFragment_to_pokemonDetailsFragment)
+
+            val sharedPreferences =
+                requireContext().getSharedPreferences("pokemon_pref", Context.MODE_PRIVATE)
+            sharedPreferences.edit().putString("pokemon_id", pokemon.name).apply()
+        }
+    }
+
 }

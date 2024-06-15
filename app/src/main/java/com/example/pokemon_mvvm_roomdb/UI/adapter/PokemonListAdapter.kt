@@ -1,5 +1,6 @@
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -37,11 +38,15 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
         holder.binding.tvPokemonName.text = item.name.toUpperCase()
 
         val (startColor, endColor) = getTypeGradientColors(item.types.firstOrNull()?.type?.name)
-        val gradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.LEFT_RIGHT,
-            intArrayOf(startColor, endColor)
+        val paint = holder.binding.tvPokemonName.paint
+        val width = paint.measureText(item.name.toUpperCase())
+        val textShader = LinearGradient(
+            0f, 0f, width, holder.binding.tvPokemonName.textSize,
+            intArrayOf(startColor, endColor),
+            null,
+            Shader.TileMode.CLAMP
         )
-        holder.binding.tvPokemonName.background = gradientDrawable
+        holder.binding.tvPokemonName.paint.shader = textShader
 
         Glide.with(holder.itemView.context)
             .load(item.sprites.front_default)
@@ -58,25 +63,24 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
 
     private fun getTypeGradientColors(typeName: String?): Pair<Int, Int> {
         return when (typeName?.toLowerCase()) {
-            "normal" -> Pair(Color.LTGRAY, Color.TRANSPARENT)
-            "fire" -> Pair(Color.WHITE, Color.RED)
-            "water" -> Pair(Color.WHITE, Color.BLUE)
-            "electric" -> Pair(Color.WHITE, Color.YELLOW)
-            "grass" -> Pair(Color.WHITE, Color.GREEN)
-            "ice" -> Pair(Color.WHITE, Color.CYAN)
-            "fighting", "ground" -> Pair(Color.WHITE, Color.rgb(156, 102, 31)) // Brown
-            "poison" -> Pair(Color.WHITE, Color.rgb(128, 0, 128)) // Purple
-            "flying" -> Pair(Color.WHITE, Color.LTGRAY)
-            "psychic" -> Pair(Color.WHITE, Color.MAGENTA)
-            "bug" -> Pair(Color.WHITE, Color.rgb(0, 128, 0)) // Dark green
-            "rock" -> Pair(Color.WHITE, Color.GRAY)
-            "ghost" -> Pair(Color.WHITE, Color.rgb(128, 128, 128)) // Gray
-            "dragon" -> Pair(Color.WHITE, Color.rgb(75, 0, 130)) // Indigo
-            "dark" -> Pair(Color.WHITE, Color.rgb(25, 25, 112)) // Midnight blue
-            "steel" -> Pair(Color.WHITE, Color.rgb(169, 169, 169)) // Dark gray
-            "fairy" -> Pair(Color.WHITE, Color.rgb(255, 192, 203)) // Pink
-            else -> Pair(Color.TRANSPARENT, Color.TRANSPARENT) // Default transparent colors
+            "normal" -> Pair(Color.LTGRAY, Color.DKGRAY)
+            "fire" -> Pair(Color.RED, Color.GRAY)
+            "water" -> Pair(Color.BLUE, Color.CYAN)
+            "electric" -> Pair(Color.YELLOW, Color.rgb(255, 165, 0)) // Orange
+            "grass" -> Pair(Color.GREEN, Color.rgb(34, 139, 34)) // Forest Green
+            "ice" -> Pair(Color.CYAN, Color.BLUE)
+            "fighting" -> Pair(Color.rgb(156, 102, 31), Color.DKGRAY) // Brown to Dark Gray
+            "poison" -> Pair(Color.rgb(128, 0, 128), Color.DKGRAY) // Purple to Dark Gray
+            "flying" -> Pair(Color.LTGRAY, Color.DKGRAY)
+            "psychic" -> Pair(Color.MAGENTA, Color.rgb(255, 20, 147)) // Magenta to Deep Pink
+            "bug" -> Pair(Color.rgb(34, 139, 34), Color.GREEN) // Forest Green to Green
+            "rock" -> Pair(Color.GRAY, Color.DKGRAY)
+            "ghost" -> Pair(Color.rgb(128, 128, 128), Color.DKGRAY) // Gray to Dark Gray
+            "dragon" -> Pair(Color.rgb(75, 0, 130), Color.rgb(138, 43, 226)) // Indigo to Blue Violet
+            "dark" -> Pair(Color.rgb(25, 25, 112), Color.BLACK) // Midnight Blue to Black
+            "steel" -> Pair(Color.rgb(169, 169, 169), Color.LTGRAY) // Dark Gray to Light Gray
+            "fairy" -> Pair(Color.rgb(255, 192, 203), Color.MAGENTA) // Pink to Magenta
+            else -> Pair(Color.LTGRAY, Color.DKGRAY) // Default gradient colors
         }
     }
-
 }

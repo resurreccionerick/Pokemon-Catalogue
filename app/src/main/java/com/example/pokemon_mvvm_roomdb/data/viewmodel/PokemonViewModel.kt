@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class PokemonViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: PokemonRepository
-    private val pokemonDatabase: PokemonDatabase
+    private val pokemonDatabase: PokemonDatabase = PokemonDatabase.getDatabase(application)
 
     private val _pokemon = MutableLiveData<PokemonDetails?>()
     private val _pokemonListSprite = MutableLiveData<List<PokemonDetails>>()
@@ -24,7 +24,6 @@ class PokemonViewModel(application: Application) : AndroidViewModel(application)
     val favPokemon: LiveData<List<PokemonDetails>> get() = _favPokemon
 
     init {
-        pokemonDatabase = PokemonDatabase.getDatabase(application)
         val pokemonDetailsDao = pokemonDatabase.pokemonDetailsDao()
         repository = PokemonRepository.getInstance(RetrofitInstance.api, pokemonDetailsDao)
         _favPokemon = pokemonDetailsDao.getAllPokemon()
@@ -50,9 +49,5 @@ class PokemonViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun updateFavoriteStatus(id: Int, isFavorite: Boolean) {
-        viewModelScope.launch {
-         //   repository.updateFavoriteStatus(id, isFavorite)
-        }
-    }
+
 }

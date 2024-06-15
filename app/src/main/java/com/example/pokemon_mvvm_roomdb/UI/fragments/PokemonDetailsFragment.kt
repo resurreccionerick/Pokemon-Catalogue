@@ -34,7 +34,6 @@ class PokemonDetailsFragment : Fragment() {
     private lateinit var binding: FragmentPokemonDetailsBinding
     private lateinit var viewModel: PokemonViewModel
     private lateinit var sharedPreferences: SharedPreferences
-   // private val pokemonViewModel: PokemonViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
