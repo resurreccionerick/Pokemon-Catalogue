@@ -50,7 +50,7 @@ class PokemonDetailsFragment : Fragment() {
         viewModel.fetchPokemonListWithSprites()
 
         // Observe the favorite Pokemon list
-        viewModel.favPokemon.observe(this, Observer { favPokemonList ->
+        viewModel.favPokemonLiveData.observe(this, Observer { favPokemonList ->
             pokemonFav = favPokemonList // Update the favorite Pokemon list
             updateFavoriteButton() // Update UI button text
         })
@@ -87,7 +87,7 @@ class PokemonDetailsFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnAddToFavorites.setOnClickListener {
-            viewModel.pokemon.value?.let { pokemonDetails ->
+            viewModel.pokemonLiveData.value?.let { pokemonDetails ->
                 // Add or remove from favorites based on current status
                 if (pokemonFav?.any { it.name == pokemonDetails.name } == true) {
                     AlertDialog.Builder(requireContext())
@@ -125,17 +125,17 @@ class PokemonDetailsFragment : Fragment() {
     }
 
     private fun observePokemonDetails() {
-        viewModel.pokemon.observe(viewLifecycleOwner, Observer { pokemonDetails ->
+        viewModel.pokemonLiveData.observe(viewLifecycleOwner, Observer { pokemonDetails ->
             pokemonDetails?.let { pokemon ->
                 updatePokemonUI(pokemon)
                 updateFavoriteButton()
             }
         })
 
-        viewModel.pokemonListSprite.observe(
+        viewModel.pokemonListSpriteLiveData.observe(
             viewLifecycleOwner,
             Observer { pokemonListSpriteDetails ->
-                viewModel.pokemon.value?.let { pokemon ->
+                viewModel.pokemonLiveData.value?.let { pokemon ->
                     updateFavoriteButton()
                 }
             })
@@ -160,7 +160,7 @@ class PokemonDetailsFragment : Fragment() {
     }
 
     private fun updateFavoriteButton() {
-        val pokemonDetails = viewModel.pokemon.value
+        val pokemonDetails = viewModel.pokemonLiveData.value
         val pokemonFav = pokemonFav
 
         if (pokemonDetails != null && pokemonFav != null) {

@@ -1,28 +1,24 @@
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.pokemon.model.details.PokemonDetails
-import com.example.pokemon_mvvm_roomdb.R
 import com.example.pokemon_mvvm_roomdb.databinding.PokemonItemBinding
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
+import com.example.pokemon.model.details.Sprites
+import com.example.pokemon.model.list.Result
 
-class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHolder>() {
+import com.example.pokemon_mvvm_roomdb.R
+
+class PokemonListAdapter : PagingDataAdapter<PokemonDetails, PokemonListAdapter.PokemonViewHolder>(PokemonComparator) {
 
     lateinit var onItemClick: ((PokemonDetails) -> Unit)
-
-    private var pokemonList = ArrayList<PokemonDetails>()
-
-    fun setData(pokemonList: List<PokemonDetails>) {
-        this.pokemonList.clear()
-        this.pokemonList.addAll(pokemonList)
-        notifyDataSetChanged()
-    }
-
-    class PokemonViewHolder(val binding: PokemonItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    private var pokemonList = ArrayList<Result>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = PokemonItemBinding.inflate(
@@ -34,34 +30,45 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        val item = pokemonList[position]
+        val item = getItem(position)
 
-        holder.binding.tvPokemonName.text = item.name.toUpperCase()
+        item?.let { pokemon ->
+            holder.binding.tvPokemonName.text = pokemon.name.toUpperCase()
 
-        val (startColor, endColor) = getTypeGradientColors(item.types.firstOrNull()?.type?.name)
-        val paint = holder.binding.tvPokemonName.paint
-        val width = paint.measureText(item.name.toUpperCase())
-        val textShader = LinearGradient(
-            0f, 0f, width, holder.binding.tvPokemonName.textSize,
-            intArrayOf(startColor, endColor),
-            null,
-            Shader.TileMode.CLAMP
-        )
-        holder.binding.tvPokemonName.paint.shader = textShader
+            val (startColor, endColor) = getTypeGradientColors(pokemon.types.firstOrNull()?.type?.name)
+            val paint = holder.binding.tvPokemonName.paint
+            val width = paint.measureText(pokemon.name.toUpperCase())
+            val textShader = LinearGradient(
+                0f, 0f, width, holder.binding.tvPokemonName.textSize,
+                intArrayOf(startColor, endColor),
+                null,
+                Shader.TileMode.CLAMP
+            )
+            holder.binding.tvPokemonName.paint.shader = textShader
 
-        Glide.with(holder.itemView.context)
-            .load(item.sprites.front_default)
-            .into(holder.binding.pokemonImg)
+            bindSprites(pokemon.sprites, holder)
 
-        holder.itemView.setOnClickListener {
-            onItemClick.invoke(item)
+            holder.itemView.setOnClickListener {
+                onItemClick.invoke(pokemon)
+            }
         }
-
-
     }
 
-    override fun getItemCount(): Int {
-        return pokemonList.size
+    private fun bindSprites(sprites: Sprites?, holder: PokemonViewHolder) {
+        sprites?.apply {
+            Glide.with(holder.itemView.context)
+                .load(front_default)
+                .placeholder(R.drawable.baseline_add_home_24)
+                .error(R.drawable.pokemonicon)
+                .into(holder.binding.pokemonImg)
+
+            // If you have a back_default image, load it similarly
+            // Glide.with(holder.itemView.context)
+            //     .load(back_default)
+            //     .placeholder(R.drawable.placeholder_image)
+            //     .error(R.drawable.error_image)
+            //     .into(holder.binding.backSpriteImageView)
+        }
     }
 
     private fun getTypeGradientColors(typeName: String?): Pair<Int, Int> {
@@ -87,6 +94,23 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.PokemonViewHo
             "steel" -> Pair(Color.rgb(169, 169, 169), Color.LTGRAY) // Dark Gray to Light Gray
             "fairy" -> Pair(Color.rgb(255, 192, 203), Color.MAGENTA) // Pink to Magenta
             else -> Pair(Color.LTGRAY, Color.DKGRAY) // Default gradient colors
+        }
+    }
+
+    fun setData(pokemonList: List<PokemonDetails>?) {
+        this.pokemonList = pokemonList as ArrayList<Result>
+        notifyDataSetChanged()
+    }
+
+    inner class PokemonViewHolder(val binding: PokemonItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+    object PokemonComparator : DiffUtil.ItemCallback<PokemonDetails>() {
+        override fun areItemsTheSame(oldItem: PokemonDetails, newItem: PokemonDetails): Boolean {
+            return oldItem.name == newItem.name
+        }
+
+        override fun areContentsTheSame(oldItem: PokemonDetails, newItem: PokemonDetails): Boolean {
+            return oldItem == newItem
         }
     }
 }

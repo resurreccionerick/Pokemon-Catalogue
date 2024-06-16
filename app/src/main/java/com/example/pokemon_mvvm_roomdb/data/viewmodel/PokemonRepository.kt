@@ -1,6 +1,7 @@
 package com.example.pokemon_mvvm_roomdb.data.viewmodel
 
 import android.util.Log
+import androidx.paging.PagingSource
 import com.example.pagkain_mvvm.database.PokemonDAO
 import com.example.pokemon.model.details.PokemonDetails
 import com.example.pokemon.retrofit.ApiService
@@ -26,7 +27,7 @@ class PokemonRepository(
     suspend fun fetchPokemonListWithSprites(): List<PokemonDetails> {
         return withContext(Dispatchers.IO) {
             try {
-                val pokemonList = api.getPokemonList() // Fetch the list of Pokémon
+                val pokemonList = api.getPokemonList(0,20) // Fetch the list of Pokémon
                 val pokemonDetailsList = mutableListOf<PokemonDetails>()
                 pokemonList.results.forEach { pokemon ->
                     val pokemonDetails = api.getPokemon(pokemon.name)
@@ -55,7 +56,9 @@ class PokemonRepository(
         pokemonDetailsDao.delete(pokemon)
     }
 
-
+    fun getPokemonPagingSource(): PagingSource<Int, PokemonDetails> {
+        return PokemonPagingSource(api)
+    }
 
     companion object {
         private var INSTANCE: PokemonRepository? = null

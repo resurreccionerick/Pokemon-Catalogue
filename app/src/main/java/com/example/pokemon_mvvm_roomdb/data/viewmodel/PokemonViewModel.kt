@@ -6,23 +6,29 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.pagkain_mvvm.database.PokemonDatabase
 import com.example.pokemon.model.details.PokemonDetails
 import com.example.pokemon.retrofit.RetrofitInstance
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class PokemonViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: PokemonRepository
+
     private val pokemonDatabase: PokemonDatabase = PokemonDatabase.getDatabase(application)
 
     private val _pokemon = MutableLiveData<PokemonDetails?>()
     private val _pokemonListSprite = MutableLiveData<List<PokemonDetails>>()
     private val _favPokemon: LiveData<List<PokemonDetails>>
 
-    val pokemonListSprite: LiveData<List<PokemonDetails>> get() = _pokemonListSprite
-    val pokemon: LiveData<PokemonDetails?> get() = _pokemon
-    val favPokemon: LiveData<List<PokemonDetails>> get() = _favPokemon
+    val pokemonListSpriteLiveData: LiveData<List<PokemonDetails>> get() = _pokemonListSprite
+    val pokemonLiveData: LiveData<PokemonDetails?> get() = _pokemon
+    val favPokemonLiveData: LiveData<List<PokemonDetails>> get() = _favPokemon
 
     init {
         val pokemonDetailsDao = pokemonDatabase.pokemonDetailsDao()
@@ -30,14 +36,18 @@ class PokemonViewModel(application: Application) : AndroidViewModel(application)
         _favPokemon = pokemonDetailsDao.getAllPokemon()
     }
 
-    fun fetchPokemon(id: String) {
+    val pokemonList: Flow<PagingData<PokemonDetails>> = Pager(PagingConfig(pageSize = 20)) {
+        repository.getPokemonPagingSource()
+    }.flow
+
+    fun fetchPokemon(id: String) { //this is for details
         viewModelScope.launch {
             val response = repository.fetchPokemon(id)
             _pokemon.postValue(response)
         }
     }
 
-    fun fetchPokemonListWithSprites() {
+    fun fetchPokemonListWithSprites() { //pokemon list
         viewModelScope.launch {
             val pokemonList = repository.fetchPokemonListWithSprites()
             _pokemonListSprite.postValue(pokemonList)

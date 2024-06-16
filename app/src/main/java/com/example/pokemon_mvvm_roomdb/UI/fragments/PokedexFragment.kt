@@ -52,7 +52,7 @@ class PokedexFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel.favPokemon.observe(viewLifecycleOwner, Observer { meals ->
+        viewModel.favPokemonLiveData.observe(viewLifecycleOwner, Observer { meals ->
             if (meals.isEmpty()) {
                 binding.txtEmpty.visibility = View.VISIBLE
             } else {
