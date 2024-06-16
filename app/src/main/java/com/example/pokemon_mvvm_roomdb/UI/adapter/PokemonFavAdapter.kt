@@ -16,7 +16,7 @@ class PokemonFavAdapter : RecyclerView.Adapter<PokemonFavAdapter.FavoritesViewHo
     lateinit var onItemClick: ((PokemonDetails) -> Unit)
     lateinit var onDeleteItemClick: ((PokemonDetails) -> Unit)
 
-    private var pokemonList = ArrayList<PokemonDetails>()
+    var pokemonList = ArrayList<PokemonDetails>()
 
     class FavoritesViewHolder(val binding: PokemonItemBinding) :
         RecyclerView.ViewHolder(binding.root)

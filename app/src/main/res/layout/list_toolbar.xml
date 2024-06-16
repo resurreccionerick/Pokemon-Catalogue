@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:text="@string/pokemon_catalogue"
-        android:textColor="@android:color/white"
+        android:textColor="#FFC107"
         android:textSize="20sp"
         android:textStyle="bold" />
 

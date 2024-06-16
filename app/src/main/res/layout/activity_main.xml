@@ -24,6 +24,7 @@
         android:id="@+id/btmNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFC107"
         android:visibility="visible"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"

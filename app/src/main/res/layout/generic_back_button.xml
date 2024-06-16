@@ -30,7 +30,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text=""
-        android:textColor="@android:color/black"
+        android:textColor="#FFC107"
         android:textSize="16sp" />
 
 </androidx.appcompat.widget.Toolbar>

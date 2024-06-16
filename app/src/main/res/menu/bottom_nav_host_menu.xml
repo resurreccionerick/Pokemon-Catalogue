@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/listFragment"
-        android:icon="@drawable/baseline_add_home_24"
+        android:icon="@drawable/home_icon"
         android:title="@string/home" />
 
     <item
         android:id="@+id/pokedexFragment"
-        android:icon="@drawable/pokemonicon"
+        android:icon="@drawable/baseline_favorite_border_24"
         android:title="@string/pokedex" />
 </menu>

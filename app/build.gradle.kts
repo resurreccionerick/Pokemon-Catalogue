@@ -79,6 +79,6 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
-    //for animation
-    //implementation("implementation 'com.airbnb.android:lottie:5.2.0'")
+    //pagination
+    implementation("androidx.paging:paging-runtime:3.3.0")
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokemon_mvvm_roomdb.R
+import com.example.pokemon_mvvm_roomdb.UI.BlurredBackground
 import com.example.pokemon_mvvm_roomdb.data.viewmodel.PokemonViewModel
 import com.example.pokemon_mvvm_roomdb.databinding.FragmentListBinding
 
@@ -21,13 +22,15 @@ class PokemonListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private lateinit var viewModel: PokemonViewModel
     private lateinit var pokemonListAdapter: PokemonListAdapter
-
+    private lateinit var blurredBackground: BlurredBackground
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this)[PokemonViewModel::class.java]
         pokemonListAdapter = PokemonListAdapter()
+        blurredBackground = BlurredBackground(activity)
 
+        blurredBackground.showProgressingView()
         // Fetch the list of Pokémon
         viewModel.fetchPokemonListWithSprites()
     }
@@ -56,7 +59,10 @@ class PokemonListFragment : Fragment() {
 
         viewModel.pokemonListSprite.observe(viewLifecycleOwner, Observer { pokemonList ->
             pokemonListAdapter.setData(pokemonList)
+            blurredBackground.hideProgressingView()
         })
+
+
     }
 
 

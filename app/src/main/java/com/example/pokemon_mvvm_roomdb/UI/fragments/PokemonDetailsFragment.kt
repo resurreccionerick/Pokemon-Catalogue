@@ -1,6 +1,7 @@
 package com.example.pokemon_mvvm_roomdb.UI.fragments
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +29,7 @@ import com.example.pokemon_mvvm_roomdb.R
 import com.example.pokemon_mvvm_roomdb.UI.BlurredBackground
 import com.example.pokemon_mvvm_roomdb.databinding.FragmentPokemonDetailsBinding
 import com.example.pokemon_mvvm_roomdb.data.viewmodel.PokemonViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class PokemonDetailsFragment : Fragment() {
 
@@ -38,8 +41,8 @@ class PokemonDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        blurredBackground = BlurredBackground(requireActivity())
-        viewModel = ViewModelProvider(this).get(PokemonViewModel::class.java)
+        blurredBackground = BlurredBackground(activity)
+        viewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
         sharedPreferences =
             requireContext().getSharedPreferences("pokemon_pref", Context.MODE_PRIVATE)
 
@@ -87,12 +90,23 @@ class PokemonDetailsFragment : Fragment() {
             viewModel.pokemon.value?.let { pokemonDetails ->
                 // Add or remove from favorites based on current status
                 if (pokemonFav?.any { it.name == pokemonDetails.name } == true) {
-                    viewModel.deletePokemon(pokemonDetails)
-                    Toast.makeText(
-                        requireContext(),
-                        "${pokemonDetails.name} removed from favorites!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Delete Favorite")
+                        .setMessage("Are you sure you want to delete this favorite?")
+                        .setPositiveButton("Delete") { dialogInterface: DialogInterface, _: Int ->
+                            viewModel.deletePokemon(pokemonDetails)
+                            Snackbar.make(requireView(), "Favorite deleted", Snackbar.LENGTH_LONG)
+                                .setAction(
+                                    "Undo"
+                                ) {
+                                    viewModel.insertPokemon(pokemonDetails)
+                                }.show()
+                            dialogInterface.dismiss()
+                        }
+                        .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
+                            dialogInterface.dismiss()
+                        }
+                        .show()
                 } else {
                     viewModel.insertPokemon(pokemonDetails)
                     Toast.makeText(
@@ -155,13 +169,10 @@ class PokemonDetailsFragment : Fragment() {
                 binding.btnAddToFavorites.setBackgroundColor(Color.RED)
             } else {
                 binding.btnAddToFavorites.text = "Add to favorite"
-                // Set default background color if needed
-                // binding.btnAddToFavorites.setBackgroundColor(DEFAULT_COLOR)
+                binding.btnAddToFavorites.setBackgroundColor(Color.YELLOW)
             }
         } else {
             binding.btnAddToFavorites.text = "Add to favorite"
-            // Set default background color if needed
-            // binding.btnAddToFavorites.setBackgroundColor(DEFAULT_COLOR)
         }
         binding.btnAddToFavorites.visibility = View.VISIBLE
     }
