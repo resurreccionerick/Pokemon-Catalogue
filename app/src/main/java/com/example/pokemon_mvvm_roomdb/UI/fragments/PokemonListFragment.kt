@@ -55,7 +55,6 @@ class PokemonListFragment : Fragment() {
         binding.rvList.adapter = pokemonListAdapter
 
         viewModel.pokemonListSprite.observe(viewLifecycleOwner, Observer { pokemonList ->
-            Log.d("ERICK BOOL LIST", pokemonList.toString())
             pokemonListAdapter.setData(pokemonList)
         })
     }

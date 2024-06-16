@@ -137,6 +137,7 @@
             android:backgroundTint="@color/ic_launcher_background"
             android:text="Add to Favorites"
             android:textColor="@color/black"
+            android:visibility="gone"
             android:textSize="16sp"
             android:textStyle="bold" />
 
