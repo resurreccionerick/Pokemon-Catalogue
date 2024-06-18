@@ -3,6 +3,7 @@ package com.example.pokemon_mvvm_roomdb.UI.fragments
 import PokemonListAdapter
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,27 +26,31 @@ class PokemonListFragment : Fragment() {
     private lateinit var pokemonListAdapter: PokemonListAdapter
     private lateinit var blurredBackground: BlurredBackground
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(PokemonViewModel::class.java)
+        pokemonListAdapter = PokemonListAdapter()
+
+        blurredBackground = BlurredBackground(activity)
+
+        // Fetch the list of Pokémon
+        viewModel.fetchPokemonListWithSprites()
+        blurredBackground.showProgressingView()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
+        setupRecyclerView()
+        observeViewModel()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(PokemonViewModel::class.java)
-        pokemonListAdapter = PokemonListAdapter()
-        blurredBackground = BlurredBackground(requireActivity())
-
-        setupRecyclerView()
-        observeViewModel()
-    }
 
     private fun setupRecyclerView() {
-        binding.rvList.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvList.layoutManager = GridLayoutManager(requireContext(), 1)
         binding.rvList.adapter = pokemonListAdapter
 
         pokemonListAdapter.onItemClick = { pokemon ->
@@ -60,13 +65,30 @@ class PokemonListFragment : Fragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.pokemonList.collectLatest { pagingData ->
+                Log.d("PokemonListFragment", "Paging data received: $pagingData")
                 pokemonListAdapter.submitData(pagingData)
+                blurredBackground.hideProgressingView()
             }
         }
 
         viewModel.pokemonListSpriteLiveData.observe(viewLifecycleOwner) { pokemonList ->
+            Log.d("PokemonListFragment", "Live data received: $pokemonList")
             pokemonListAdapter.setData(pokemonList)
             blurredBackground.hideProgressingView()
         }
     }
+
+//    private fun observeViewModel() {
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewModel.pokemonList.collectLatest { pagingData ->
+//                pokemonListAdapter.submitData(pagingData)
+//                blurredBackground.hideProgressingView()
+//            }
+//        }
+//
+//        viewModel.pokemonListSpriteLiveData.observe(viewLifecycleOwner) { pokemonList ->
+//            pokemonListAdapter.setData(pokemonList)
+//            blurredBackground.hideProgressingView()
+//        }
+//    }
 }

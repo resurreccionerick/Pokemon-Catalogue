@@ -11,32 +11,35 @@ class PokemonPagingSource(
 ) : PagingSource<Int, PokemonDetails>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonDetails> {
-        try {
+        return try {
             val offset = params.key ?: 0
             val response = apiService.getPokemonList(offset, params.loadSize)
-            val pokemonList = response.results.mapIndexed { index, result ->
-                PokemonDetails(
-                    id = offset + index + 1,
-                    name = result.name,
-                    height = 0,  // Initialize these values with default
+
+            val pokemonDetailsList = response.results.map { result ->
+                apiService.getPokemon(result.name) ?: PokemonDetails(
+                    id = 0,
+                    name = "",
+                    height = 0,
                     weight = 0,
                     abilities = emptyList(),
                     types = emptyList(),
                     moves = emptyList(),
-                    sprites = Sprites("", ""),  // Initialize with default URLs
+                    sprites = Sprites("", ""),
                     stats = emptyList(),
                     isFavorite = false
                 )
             }
-            return LoadResult.Page(
-                data = pokemonList,
+
+            LoadResult.Page(
+                data = pokemonDetailsList,
                 prevKey = if (offset == 0) null else offset - params.loadSize,
-                nextKey = offset + params.loadSize
+                nextKey = if (pokemonDetailsList.isEmpty()) null else offset + params.loadSize
             )
         } catch (e: Exception) {
-            return LoadResult.Error(e)
+            LoadResult.Error(e)
         }
     }
+
 
     override fun getRefreshKey(state: PagingState<Int, PokemonDetails>): Int? {
         // This method is used to return the key for the most recent page

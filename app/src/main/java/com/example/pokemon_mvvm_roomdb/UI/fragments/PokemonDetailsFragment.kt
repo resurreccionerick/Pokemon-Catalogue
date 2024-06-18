@@ -87,7 +87,7 @@ class PokemonDetailsFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnAddToFavorites.setOnClickListener {
-            viewModel.pokemonLiveData.value?.let { pokemonDetails ->
+            viewModel.pokemonDetailsLiveData.value?.let { pokemonDetails ->
                 // Add or remove from favorites based on current status
                 if (pokemonFav?.any { it.name == pokemonDetails.name } == true) {
                     AlertDialog.Builder(requireContext())
@@ -125,7 +125,7 @@ class PokemonDetailsFragment : Fragment() {
     }
 
     private fun observePokemonDetails() {
-        viewModel.pokemonLiveData.observe(viewLifecycleOwner, Observer { pokemonDetails ->
+        viewModel.pokemonDetailsLiveData.observe(viewLifecycleOwner, Observer { pokemonDetails ->
             pokemonDetails?.let { pokemon ->
                 updatePokemonUI(pokemon)
                 updateFavoriteButton()
@@ -135,7 +135,7 @@ class PokemonDetailsFragment : Fragment() {
         viewModel.pokemonListSpriteLiveData.observe(
             viewLifecycleOwner,
             Observer { pokemonListSpriteDetails ->
-                viewModel.pokemonLiveData.value?.let { pokemon ->
+                viewModel.pokemonDetailsLiveData.value?.let { pokemon ->
                     updateFavoriteButton()
                 }
             })
@@ -160,7 +160,7 @@ class PokemonDetailsFragment : Fragment() {
     }
 
     private fun updateFavoriteButton() {
-        val pokemonDetails = viewModel.pokemonLiveData.value
+        val pokemonDetails = viewModel.pokemonDetailsLiveData.value
         val pokemonFav = pokemonFav
 
         if (pokemonDetails != null && pokemonFav != null) {

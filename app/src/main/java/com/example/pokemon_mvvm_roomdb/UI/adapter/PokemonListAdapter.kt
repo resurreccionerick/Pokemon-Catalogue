@@ -20,6 +20,11 @@ class PokemonListAdapter : PagingDataAdapter<PokemonDetails, PokemonListAdapter.
     lateinit var onItemClick: ((PokemonDetails) -> Unit)
     private var pokemonList = ArrayList<Result>()
 
+    fun setData(pokemonList: List<PokemonDetails>?) {
+        this.pokemonList = pokemonList as ArrayList<Result>
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val binding = PokemonItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -62,12 +67,6 @@ class PokemonListAdapter : PagingDataAdapter<PokemonDetails, PokemonListAdapter.
                 .error(R.drawable.pokemonicon)
                 .into(holder.binding.pokemonImg)
 
-            // If you have a back_default image, load it similarly
-            // Glide.with(holder.itemView.context)
-            //     .load(back_default)
-            //     .placeholder(R.drawable.placeholder_image)
-            //     .error(R.drawable.error_image)
-            //     .into(holder.binding.backSpriteImageView)
         }
     }
 
@@ -95,11 +94,6 @@ class PokemonListAdapter : PagingDataAdapter<PokemonDetails, PokemonListAdapter.
             "fairy" -> Pair(Color.rgb(255, 192, 203), Color.MAGENTA) // Pink to Magenta
             else -> Pair(Color.LTGRAY, Color.DKGRAY) // Default gradient colors
         }
-    }
-
-    fun setData(pokemonList: List<PokemonDetails>?) {
-        this.pokemonList = pokemonList as ArrayList<Result>
-        notifyDataSetChanged()
     }
 
     inner class PokemonViewHolder(val binding: PokemonItemBinding) : RecyclerView.ViewHolder(binding.root)
