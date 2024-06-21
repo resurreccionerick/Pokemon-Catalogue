@@ -31,7 +31,8 @@ class PokemonListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(PokemonViewModel::class.java)
         pokemonListAdapter = PokemonListAdapter()
 
-        blurredBackground = BlurredBackground(activity)
+        blurredBackground =
+            BlurredBackground(activity)
 
         // Fetch the list of Pokémon
         viewModel.fetchPokemonListWithSprites()
