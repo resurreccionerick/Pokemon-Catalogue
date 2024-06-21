@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +40,8 @@ class PokemonDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        blurredBackground = BlurredBackground(activity)
+        blurredBackground =
+            BlurredBackground(activity)
         viewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
         sharedPreferences =
             requireContext().getSharedPreferences("pokemon_pref", Context.MODE_PRIVATE)
