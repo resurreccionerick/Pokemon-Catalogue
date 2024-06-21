@@ -1,9 +1,9 @@
 # Pokémon Catalogue
 
-Pokémon Explorer is an Android application built using Kotlin, following the MVVM architectural pattern, and Room Database. The app fetches data from the Pokémon API to display a list of Pokémon and their details. Users can also add a Pokémon to their Pokédex (favorite Pokémon).
+Pokémon Catalogue is an Android application built using Kotlin, following the MVVM architectural pattern, and Room Database. The app fetches data from the Pokémon API to display a list of Pokémon and their details. Users can also add a Pokémon to their Pokédex (favorite Pokémon).
 
 ## Download the APK here:
-(https://drive.google.com/file/d/1YxRyERRzHRTh2Od-do-L73VMqmFEv6_l/view?usp=drive_link)
+https://drive.google.com/file/d/114VmuvWev0zZW3WVbq0WhR-A9ilX7H9M/view
 
 ## Technologies Used
 - **Kotlin:** A modern, statically typed programming language used by over 60% of professional Android developers. It boosts productivity, developer satisfaction, and code safety.
