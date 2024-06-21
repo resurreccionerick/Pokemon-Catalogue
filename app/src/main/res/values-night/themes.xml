@@ -2,6 +2,6 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Pokemonmvvmroomdb" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">#191f22</item>
+        <item name="colorPrimary">#FFC107</item>
     </style>
 </resources>

@@ -1,7 +1,6 @@
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -63,7 +62,7 @@ class PokemonListAdapter : PagingDataAdapter<PokemonDetails, PokemonListAdapter.
         sprites?.apply {
             Glide.with(holder.itemView.context)
                 .load(front_default)
-                .placeholder(R.drawable.baseline_add_home_24)
+                .placeholder(R.drawable.pokeball)
                 .error(R.drawable.pokemonicon)
                 .into(holder.binding.pokemonImg)
 

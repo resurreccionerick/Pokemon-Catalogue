@@ -67,7 +67,7 @@ class PokemonListFragment : Fragment() {
             viewModel.pokemonList.collectLatest { pagingData ->
                 Log.d("PokemonListFragment", "Paging data received: $pagingData")
                 pokemonListAdapter.submitData(pagingData)
-                blurredBackground.hideProgressingView()
+                //blurredBackground.hideProgressingView()
             }
         }
 
@@ -77,18 +77,4 @@ class PokemonListFragment : Fragment() {
             blurredBackground.hideProgressingView()
         }
     }
-
-//    private fun observeViewModel() {
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.pokemonList.collectLatest { pagingData ->
-//                pokemonListAdapter.submitData(pagingData)
-//                blurredBackground.hideProgressingView()
-//            }
-//        }
-//
-//        viewModel.pokemonListSpriteLiveData.observe(viewLifecycleOwner) { pokemonList ->
-//            pokemonListAdapter.setData(pokemonList)
-//            blurredBackground.hideProgressingView()
-//        }
-//    }
 }

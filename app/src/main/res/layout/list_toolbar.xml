@@ -10,12 +10,12 @@
 
     <ImageView
         android:id="@+id/toolbar_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="start|center_vertical"
         android:contentDescription="@string/app_name"
         android:padding="8dp"
-        android:src="@drawable/pokemonicon" />
+        android:src="@drawable/pokeball" />
 
     <TextView
         android:id="@+id/toolbar_title"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:text="@string/pokemon_catalogue"
-        android:textColor="#FFC107"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
 
